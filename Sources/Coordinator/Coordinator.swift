@@ -11,7 +11,7 @@ import Foundation
 /**
  The methods adopted by the object you use to listen to whether a coordinator finished.
  */
-protocol CoordinatorListener: AnyObject {
+public protocol CoordinatorListener: AnyObject {
     
     /**
      Tells the listener that the child finished.
@@ -23,7 +23,7 @@ protocol CoordinatorListener: AnyObject {
  An `Coordinator` is an object that takes responsibility of how a `UIViewController` should be presented.
   - Description: Coordinators are a design pattern that encourages decoupling view controllers such that they know as little as possible about how they are presented.
  */
-protocol Coordinator: CoordinatorListener {
+public protocol Coordinator: CoordinatorListener {
     
     /**
      The listener of this  `Coordinator`, it should be its parent `Coordinator`.
@@ -46,7 +46,7 @@ protocol Coordinator: CoordinatorListener {
 /**
  An `HierarchyCoordinator` is a `Coordinator` with methods to manage its sub-flow as children.
  */
-protocol HierarchyCoordinator: Coordinator {
+public protocol HierarchyCoordinator: Coordinator {
     
     /**
      The child `Coordinators` being managed by this `Coordinator`.
@@ -71,13 +71,13 @@ protocol HierarchyCoordinator: Coordinator {
 
 extension HierarchyCoordinator {
     
-    func add(child coordinator: Coordinator) {
+    public func add(child coordinator: Coordinator) {
         coordinator.listener = self
         coordinator.start()
         children.append(coordinator)
     }
     
-    func remove(child coordinator: Coordinator) {
+    public func remove(child coordinator: Coordinator) {
         coordinator.stop()
         children.removeAll(where: { $0 === coordinator })
     }
@@ -85,14 +85,14 @@ extension HierarchyCoordinator {
 
 extension CoordinatorListener {
     
-    func didFinish(coordinator: Coordinator) {
+    public func didFinish(coordinator: Coordinator) {
         coordinator.stop()
     }
 }
 
 extension CoordinatorListener where Self: HierarchyCoordinator {
     
-    func didFinish(coordinator: Coordinator) {
+    public func didFinish(coordinator: Coordinator) {
         guard let index = children.firstIndex(where: { $0 === coordinator }) else { return }
         children[index].stop()
         children.remove(at: index)

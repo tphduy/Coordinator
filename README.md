@@ -1,3 +1,3 @@
 # Coordinator
 
-A description of this package.
+An implementation of Coordinator design pattern
